@@ -1,0 +1,16 @@
+{
+  "name": "jjfly-movie",
+  "description": "A movie database based on Douban.",
+  "main": "index.js",
+  "authors": [
+    "xiaoyanhao"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "movie"
+  ],
+  "homepage": "https://xiaoyanhao.github.io/jjfly-movie",
+  "devDependencies": {
+    "react": "^15.0.2"
+  }
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="author" content="xiaoyanhao">
+    <meta name="description" content="A movie database based on Douban">
+    <meta name="keywords" content="movie">
+
+    <title>JJFly Movie</title>
+
+    <link rel="stylesheet" type="text/css" href="index.css">
+
+    <script type="text/javascript" src="bower_components/react/react-with-addons.min.js"></script>
+    <script type="text/javascript" src="bower_components/react/react-dom.min.js"></script>
+    <script type="text/javascript" src="bower_components/fetch/fetch.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" src="bundle.js"></script>
+    <script type="text/javascript">
+      function showMoviesInTheaters(data) {
+        console.log(data);
+      }
+    </script>
+    <script type="text/javascript" src="https://api.douban.com/v2/movie/in_theaters?callback=showMoviesInTheaters"></script>
+  </body>
+</html>
