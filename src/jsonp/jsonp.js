@@ -20,13 +20,9 @@ let random = length => {
 }
 
 export const JSONP = (options = {}) => {
-  let callbackName = 'jsonp_' + random(15)
   let param = Object.assign({
     url: '',
-    data: {
-      callback: callbackName,
-      city: '广州'
-    },
+    data: {},
     before: param => {},
     success: response => {},
     error: event => {},
@@ -37,6 +33,8 @@ export const JSONP = (options = {}) => {
     throw new error('URL must not be empty!')
   }
 
+  let callbackName = 'jsonp_' + random(15)
+  param.data.callback = callbackName
   param.url = completeURL(param)
   param.before(param)
 

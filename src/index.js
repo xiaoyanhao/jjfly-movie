@@ -1,3 +1,5 @@
+import Slide from './slide/slide'
+
 class JJFly extends React.Component {
   constructor(props) {
     super(props)
@@ -5,7 +7,7 @@ class JJFly extends React.Component {
 
   render() {
     return (
-      <p>Movie</p>
+      <Slide />
     )
   }
 }

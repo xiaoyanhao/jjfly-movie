@@ -34,7 +34,7 @@ gulp.task('babel', () => {
   return gulp.src('src/**/*.js')
     .pipe(babel())
     .pipe(webpack(webpackConfig))
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest('dist'))
 })
 
