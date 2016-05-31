@@ -6,23 +6,23 @@ class Items extends React.Component {
   render() {
     let items = this.props.movies.map((element) => {
       return (
-        <li class='slide-item'>
+        <li className='slide-item'>
           <ul>
-            <li class='poster'>
+            <li className='poster'>
               <a>
-                <img src={element.images.medium} alt={element.title} />
+                <img src={element.images.medium.replace('/spst/', '/mpst/')} alt={element.title} />
               </a>
             </li>
 
-            <li class='title'>
+            <li className='title'>
               <a>{element.title}</a>
             </li>
 
-            <li class='rating'>
+            <li className='rating'>
               <span>{element.rating.average}</span>
             </li>
 
-            <li class='ticket'>
+            <li className='ticket'>
               <a>在线购票</a>
             </li>
           </ul>
@@ -31,7 +31,7 @@ class Items extends React.Component {
     })
 
     return (
-      <ul class='slide-items'>
+      <ul className='slide-items'>
         {items}
       </ul>
     )

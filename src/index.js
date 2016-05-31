@@ -7,7 +7,9 @@ class JJFly extends React.Component {
 
   render() {
     return (
-      <Slide />
+      <div id='jjfly'>
+        <Slide />
+      </div>
     )
   }
 }

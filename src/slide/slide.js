@@ -1,6 +1,7 @@
 import {JSONP} from '../jsonp/jsonp'
 import Items from './items/items'
 import Control from './control/control'
+import {MockMovies} from './mock-movies'
 
 class Slide extends React.Component {
   constructor(props) {
@@ -15,34 +16,29 @@ class Slide extends React.Component {
   }
 
   componentDidMount() {
-    JSONP({
-      url: 'https://api.douban.com/v2/movie/in_theaters',
-      data: {
-        city: '广州'
-      },
-      success: this.slideMoviesInTheaters
-    })
-
+    // JSONP({
+    //   url: 'https://api.douban.com/v2/movie/in_theaters',
+    //   data: {
+    //     city: '广州'
+    //   },
+    //   success: this.slideMoviesInTheaters
+    // })
+    this.slideMoviesInTheaters(MockMovies);
   }
 
   render() {
     return (
       <div id='slide'>
-        <div class='slide-head'>
-          <h2 class='slide-title'>{this.state.inTheaters.title}</h2>
-          <div class='slide-tip'>
-            <span>1</span>
-            <span>/</span>
-            <span>4</span>
-          </div>
+        <div className='slide-head'>
+          <h2 className='slide-title'>{this.state.inTheaters.title}</h2>
         </div>
 
-        <div class='slide-content'>
+        <div className='slide-content'>
           <Items movies={this.state.inTheaters.subjects} />
         </div>
 
-        <div class='slide-control'>
-          <Control />
+        <div className='slide-foot'>
+          <Control total={this.state.inTheaters.total} />
         </div>
       </div>
     )
