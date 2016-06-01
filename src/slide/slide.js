@@ -6,8 +6,9 @@ import {MockMovies} from './mock-movies'
 class Slide extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {inTheaters: this.props.inTheaters}
+    this.state = {inTheaters: this.props.inTheaters, left: this.props.left}
     this.slideMoviesInTheaters = this.slideMoviesInTheaters.bind(this)
+    this.slide = this.slide.bind(this)
   }
 
   slideMoviesInTheaters(response) {
@@ -26,6 +27,10 @@ class Slide extends React.Component {
     this.slideMoviesInTheaters(MockMovies);
   }
 
+  slide(index) {
+    this.setState({left: index * -590})
+  }
+
   render() {
     return (
       <div id='slide'>
@@ -34,11 +39,11 @@ class Slide extends React.Component {
         </div>
 
         <div className='slide-content'>
-          <Items movies={this.state.inTheaters.subjects} />
+          <Items movies={this.state.inTheaters.subjects} left={this.state.left} />
         </div>
 
         <div className='slide-foot'>
-          <Control total={this.state.inTheaters.total} />
+          <Control total={this.state.inTheaters.total} slide={this.slide} />
         </div>
       </div>
     )
@@ -46,7 +51,8 @@ class Slide extends React.Component {
 }
 
 Slide.propTypes = {
-  inTheaters: React.PropTypes.object
+  inTheaters: React.PropTypes.object,
+  left: React.PropTypes.int
 }
 
 Slide.defaultProps = {
@@ -56,7 +62,8 @@ Slide.defaultProps = {
     total: 0,
     subjects: [],
     title: '正在热映'
-  }
+  },
+  left: 0
 }
 
 export default Slide

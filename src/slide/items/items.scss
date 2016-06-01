@@ -1,6 +1,7 @@
 .slide-items {
   position: absolute;
   white-space: nowrap;
+  transition: left, 0.7s;
 }
 
 .slide-item {
@@ -10,37 +11,50 @@
   overflow: hidden;
   text-align: center;
   margin: 0 9.75px;
+}
 
-  .poster {
-    margin-bottom: 10px;
-    img {
-      width: 128px;
-      vertical-align: middle;
+.poster {
+  margin-bottom: 10px;
+  img {
+    width: 128px;
+    vertical-align: middle;
+  }
+}
+
+.title {
+  font-size: 14px;
+  width: 128px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.rating {
+  margin: 10px;
+  font-size: 12px;
+  color: #e09015;
+
+  .rating-star {
+    display: inline-block;
+    width: 55px;
+    height: 11px;
+    margin-right: 5px;
+    background-image: url('https://img3.doubanio.com/f/shire/b8f4c3672ef81106701071831e22422a745d3b74/pics/rating_icons/ic_rating_s.png');
+  }
+
+  @for $i from 0 through 10 {
+    .rating-star-#{$i} {
+      background-position: 0 -11px * (10 - $i);
     }
   }
+}
 
-  .title {
-    font-size: 14px;
-    width: 128px;
-    // white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
-  }
-
-  .rating {
-    margin: 10px;
-    font-size: 12px;
-    color: #e09015;
-  }
-
-  .ticket {
-    display: inline-block;
-    font-size: 12px;
-    background-color: #2196f3;
-    color: #fff;
-    padding: 6px 15px;
-    border-radius: 3px;
-    cursor: pointer;
-  }
+.ticket {
+  display: inline-block;
+  font-size: 12px;
+  background-color: #2196f3;
+  color: #fff;
+  padding: 6px 15px;
+  border-radius: 3px;
+  cursor: pointer;
 }

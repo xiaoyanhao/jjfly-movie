@@ -3,8 +3,20 @@ class Items extends React.Component {
     super(props)
   }
 
+  componentDidMount() {
+
+  }
+
+  slide(index) {
+    this.refs.slideItems.left = index * -590;
+  }
+
   render() {
     let items = this.props.movies.map((element) => {
+      let rating = element.rating.average
+      rating = Math.round(rating).toString()
+      rating = 'rating-star rating-star-' + rating
+      let ratingStar = <span className={rating}></span>
       return (
         <li className='slide-item'>
           <ul>
@@ -15,11 +27,12 @@ class Items extends React.Component {
             </li>
 
             <li className='title'>
-              <a>{element.title}</a>
+              <a title={element.title}>{element.title}</a>
             </li>
 
             <li className='rating'>
-              <span>{element.rating.average}</span>
+              {ratingStar}
+              <span className='rating-score'>{element.rating.average}</span>
             </li>
 
             <li className='ticket'>
@@ -31,7 +44,7 @@ class Items extends React.Component {
     })
 
     return (
-      <ul className='slide-items'>
+      <ul className='slide-items' style={{left: this.props.left}}>
         {items}
       </ul>
     )

@@ -1,8 +1,8 @@
 export const MockMovies = {
-  count: 20,
+  count: 10,
   start: 0,
   title: '正在上映的电影-广州',
-  total: 19,
+  total: 10,
   subjects: [
     {
       alt: 'https://movie.douban.com/subject/21441132/',
