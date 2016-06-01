@@ -14,6 +14,12 @@ gulp.task('clean', cb => {
   rimraf('./dist', cb)
 })
 
+// copy assets into dist directory
+gulp.task('assets', () => {
+  return gulp.src('src/assets/*', {base: 'src'})
+    .pipe(gulp.dest('dist'))
+})
+
 // copy html into dist directory
 gulp.task('html', () => {
   return gulp.src('src/**/*.html')
@@ -50,7 +56,7 @@ gulp.task('bower', () => {
 })
 
 // static server + watching files' change
-gulp.task('serve', ['bower', 'scss', 'babel', 'html'], () => {
+gulp.task('serve', ['assets', 'bower', 'scss', 'babel', 'html'], () => {
   browserSync.init({
     server: {
       baseDir: './dist'
@@ -58,6 +64,7 @@ gulp.task('serve', ['bower', 'scss', 'babel', 'html'], () => {
     open: false
   })
 
+  gulp.watch('src/assets/*', ['assets'])
   gulp.watch('src/**/*.html', ['html'])
   gulp.watch('src/**/*.scss', ['scss'])
   gulp.watch('src/**/*.js', ['babel'])

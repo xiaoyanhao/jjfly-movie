@@ -1,4 +1,5 @@
 import Slide from './slide/slide'
+import Nav from './nav/nav'
 
 class JJFly extends React.Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class JJFly extends React.Component {
   render() {
     return (
       <div id='jjfly'>
+        <Nav />
         <Slide />
       </div>
     )

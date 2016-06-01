@@ -3,10 +3,6 @@ class Items extends React.Component {
     super(props)
   }
 
-  componentDidMount() {
-
-  }
-
   slide(index) {
     this.refs.slideItems.left = index * -590;
   }

@@ -1,0 +1,61 @@
+@import '../mixin';
+
+#nav {
+  width: 100%;
+  // height: 30px;
+  // line-height: 30px;
+  // background-color: #eaeff2;
+  color: $blue;
+  border-bottom: 1px solid $grey;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+
+  .nav-links {
+    ul {
+      width: 590px;
+      margin: 0 auto;
+    }
+    li {
+      display: inline-block;
+      margin-right: 15px;
+      font-size: 12px;
+      padding: 3px;
+      cursor: pointer;
+      border: 1px solid transparent;
+
+      &:hover {
+        border-color: $blue;
+      }
+    }
+  }
+
+  form {
+    width: 590px;
+    margin: 0 auto;
+    padding: 20px 0;
+
+    input {
+      vertical-align: middle;
+    }
+  }
+
+  .search-input {
+    width: 470px;
+    height: 20px;
+    padding: 5px 47px 5px 15px;
+    font-size: 12px;
+    outline: none;
+  }
+
+  .search-submit {
+    width: 32px;
+    height: 32px;
+    background-color: $blue;
+    border: none;
+    background-image: url('../assets/search.svg');
+    position: relative;
+    left: -32px;
+    cursor: pointer;
+    padding: 0;
+  }
+}

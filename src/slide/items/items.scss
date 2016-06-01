@@ -1,23 +1,26 @@
 .slide-items {
-  position: absolute;
+  position: relative;
   white-space: nowrap;
-  transition: left, 0.7s;
+  transition: left 0.7s;
 }
 
 .slide-item {
   display: inline-block;
   width: 128px;
-  height: 270px;
+  // height: 270px;
   overflow: hidden;
   text-align: center;
   margin: 0 9.75px;
 }
 
 .poster {
+  vertical-align: super;
   margin-bottom: 10px;
   img {
     width: 128px;
+    height: 183px;
     vertical-align: middle;
+    cursor: pointer;
   }
 }
 
