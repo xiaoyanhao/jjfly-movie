@@ -125,8 +125,9 @@
 
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Slide).call(this, props));
 
-	    _this.state = { inTheaters: _this.props.inTheaters };
+	    _this.state = { inTheaters: _this.props.inTheaters, left: _this.props.left };
 	    _this.slideMoviesInTheaters = _this.slideMoviesInTheaters.bind(_this);
+	    _this.slide = _this.slide.bind(_this);
 	    return _this;
 	  }
 
@@ -149,6 +150,11 @@
 	      this.slideMoviesInTheaters(_mockMovies.MockMovies);
 	    }
 	  }, {
+	    key: 'slide',
+	    value: function slide(index) {
+	      this.setState({ left: index * -590 });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return React.createElement(
@@ -166,12 +172,12 @@
 	        React.createElement(
 	          'div',
 	          { className: 'slide-content' },
-	          React.createElement(_items2.default, { movies: this.state.inTheaters.subjects })
+	          React.createElement(_items2.default, { movies: this.state.inTheaters.subjects, left: this.state.left })
 	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'slide-foot' },
-	          React.createElement(_control2.default, { total: this.state.inTheaters.total })
+	          React.createElement(_control2.default, { total: this.state.inTheaters.total, slide: this.slide })
 	        )
 	      );
 	    }
@@ -181,7 +187,8 @@
 	}(React.Component);
 
 	Slide.propTypes = {
-	  inTheaters: React.PropTypes.object
+	  inTheaters: React.PropTypes.object,
+	  left: React.PropTypes.int
 	};
 
 	Slide.defaultProps = {
@@ -191,7 +198,8 @@
 	    total: 0,
 	    subjects: [],
 	    title: '正在热映'
-	  }
+	  },
+	  left: 0
 	};
 
 	exports.default = Slide;
@@ -299,9 +307,21 @@
 	  }
 
 	  _createClass(Items, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {}
+	  }, {
+	    key: 'slide',
+	    value: function slide(index) {
+	      this.refs.slideItems.left = index * -590;
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var items = this.props.movies.map(function (element) {
+	        var rating = element.rating.average;
+	        rating = Math.round(rating).toString();
+	        rating = 'rating-star rating-star-' + rating;
+	        var ratingStar = React.createElement('span', { className: rating });
 	        return React.createElement(
 	          'li',
 	          { className: 'slide-item' },
@@ -322,16 +342,17 @@
 	              { className: 'title' },
 	              React.createElement(
 	                'a',
-	                null,
+	                { title: element.title },
 	                element.title
 	              )
 	            ),
 	            React.createElement(
 	              'li',
 	              { className: 'rating' },
+	              ratingStar,
 	              React.createElement(
 	                'span',
-	                null,
+	                { className: 'rating-score' },
 	                element.rating.average
 	              )
 	            ),
@@ -350,7 +371,7 @@
 
 	      return React.createElement(
 	        'ul',
-	        { className: 'slide-items' },
+	        { className: 'slide-items', style: { left: this.props.left } },
 	        items
 	      );
 	    }
@@ -385,20 +406,43 @@
 	  function Control(props) {
 	    _classCallCheck(this, Control);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Control).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Control).call(this, props));
+
+	    _this.controlSlide = _this.controlSlide.bind(_this);
+	    _this.prevActiveIndex = 0;
+	    return _this;
 	  }
 
 	  _createClass(Control, [{
+	    key: 'controlSlide',
+	    value: function controlSlide(event) {
+	      var li = event.target;
+	      var ul = event.currentTarget;
+	      if (li == ul) {
+	        return false;
+	      }
+
+	      var lis = ul.childNodes;
+	      lis[this.prevActiveIndex].classList.remove('active');
+	      this.prevActiveIndex = li.classList[0].split('-')[2];
+	      li.classList.add('active');
+	      this.props.slide(this.prevActiveIndex);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var lis = [];
 	      var amount = Math.ceil(this.props.total / 4);
-	      for (var i = 1; i <= amount; i++) {
-	        lis.push(React.createElement('li', { className: 'slide-control-' + i }));
+	      for (var i = 0; i < amount; i++) {
+	        var className = 'slide-control-' + i;
+	        if (i == 0) {
+	          className += ' active';
+	        }
+	        lis.push(React.createElement('li', { className: className }));
 	      }
 	      return React.createElement(
 	        'ul',
-	        { className: 'slide-control' },
+	        { className: 'slide-control', onClick: this.controlSlide, ref: 'control' },
 	        lis
 	      );
 	    }
@@ -419,10 +463,10 @@
 	  value: true
 	});
 	var MockMovies = exports.MockMovies = {
-	  count: 20,
+	  count: 10,
 	  start: 0,
 	  title: '正在上映的电影-广州',
-	  total: 19,
+	  total: 10,
 	  subjects: [{
 	    alt: 'https://movie.douban.com/subject/21441132/',
 	    images: {
