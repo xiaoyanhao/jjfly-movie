@@ -10,14 +10,17 @@
 
   .slide-title {
     margin: 0;
-    font-size: 20px;
+    font-size: 16px;
+
+    .divider {
+      margin: 0 8px;
+    }
   }
   .slide-tip {
     float: right;
   }
 
   .slide-content {
-    // min-height: 276px;
     position: relative;
     overflow: hidden;
   }

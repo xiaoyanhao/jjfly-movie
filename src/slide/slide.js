@@ -35,7 +35,11 @@ class Slide extends React.Component {
     return (
       <div id='slide'>
         <div className='slide-head'>
-          <h2 className='slide-title'>{this.state.inTheaters.title}</h2>
+          <h2 className='slide-title'>
+            <span className='in-theaters'>正在热映</span>
+            <span className='divider'>/</span>
+            <span className='coming-soon'>即将上映</span>
+          </h2>
         </div>
 
         <div className='slide-content'>
