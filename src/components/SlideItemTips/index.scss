@@ -1,0 +1,43 @@
+.slide-item-tip {
+  position: absolute;
+  top: 0;
+  width: 200px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  z-index: 1;
+  background-color: #fff;
+  display: none;
+
+  @for $i from 0 through 35 {
+    &.tip-#{$i} {
+      left: 148px * ($i % 5 + 1)
+    }
+  }
+
+  &.active {
+    display: list-item;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: normal;
+    margin-top: 0;
+    line-height: 1.4;
+
+    .year {
+      color: #aaa;
+      font-size: 12px;
+      margin-left: 8px;
+    }
+  }
+
+  p {
+    font-size: 12px;
+    margin-bottom: 0;
+    line-height: 1.4;
+
+    .label {
+      margin-right: 8px;
+    }
+  }
+}

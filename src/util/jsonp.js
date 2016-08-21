@@ -52,6 +52,8 @@ export const JSONP = (options = {}) => {
   script.addEventListener('error', event => {
     param.error(event)
     param.completed(event, param)
+    // script.parentNode.removeChild(script)
+    // script = null
   })
 
   script.addEventListener('load', event => {

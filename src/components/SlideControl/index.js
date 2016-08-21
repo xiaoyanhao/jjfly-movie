@@ -1,8 +1,11 @@
-class Control extends React.Component {
+import React from 'react'
+
+class SlideControl extends React.Component {
   constructor(props) {
     super(props)
     this.controlSlide = this.controlSlide.bind(this)
     this.prevActiveIndex = 0
+    this.maxTotal = 7
   }
 
   controlSlide(event) {
@@ -14,27 +17,30 @@ class Control extends React.Component {
 
     let lis = ul.childNodes
     lis[this.prevActiveIndex].classList.remove('active')
-    this.prevActiveIndex = li.classList[0].split('-')[2]
+    this.prevActiveIndex = parseInt(li.getAttribute('data-index'))
     li.classList.add('active')
     this.props.slide(this.prevActiveIndex)
   }
 
   render() {
     let lis = []
-    let amount = Math.ceil(this.props.total / 4)
-    for (let i = 0; i < amount; i++) {
-      let className = 'slide-control-' + i
+    let total = Math.ceil(this.props.total / 5)
+    total = total > this.maxTotal ? this.maxTotal : total
+
+    for (let i = 0; i < total; ++i) {
       if (i == 0) {
-        className += ' active'
+        lis.push(<li key={i} data-index={i} className='active'></li>)
+      } else {
+        lis.push(<li key={i} data-index={i}></li>)
       }
-      lis.push(<li className={className}></li>)
     }
+
     return (
-      <ul className='slide-control' onClick={this.controlSlide} ref='control'>
+      <ul className='slide-control' onClick={this.controlSlide}>
         {lis}
       </ul>
     )
   }
 }
 
-export default Control
+export default SlideControl

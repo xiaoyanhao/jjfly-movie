@@ -1,0 +1,75 @@
+@import '../../mixin';
+
+.slide-items-wrapper {
+  overflow: hidden;
+}
+
+.slide-items {
+  position: relative;
+  white-space: nowrap;
+  transition: left 0.7s;
+}
+
+.slide-item {
+  width: 128px;
+  display: inline-block;
+  overflow: hidden;
+  text-align: center;
+  margin: 0 10px;
+  position: relative;
+}
+
+.poster {
+  vertical-align: super;
+  height: 180px;
+  overflow: hidden;
+  margin-bottom: 18px;
+
+  img {
+    width: 128px;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+}
+
+.title {
+  font-size: 14px;
+  width: 128px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 8px;
+
+  a {
+    cursor: pointer;
+  }
+}
+
+.rating {
+  font-size: 12px;
+  margin-bottom: 18px;
+
+  .rating-score {
+    color: #e09015;
+  }
+
+  .rating-star {
+    display: inline-block;
+    width: 55px;
+    height: 11px;
+    margin-right: 5px;
+    background-image: url('assets/rating.png');
+    background-size: cover;
+  }
+
+  @for $i from 10 through 50 {
+    @if $i % 5 == 0 {
+      .rating-star-#{$i} {
+        background-position: 0 -11px * (10 - $i / 5);
+      }
+    }
+  }
+
+  .rating-star-00 {
+    display: none;
+  }
+}

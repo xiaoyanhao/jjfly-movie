@@ -1,80 +1,116 @@
-const gulp = require('gulp')
-const rimraf = require('rimraf')
-const babel = require('gulp-babel')
-const scss = require('gulp-sass')
-const browserSync = require('browser-sync').create()
-const webpack = require('webpack-stream')
-const webpackConfig = require('./webpack.config.js')
-const ghPages = require('gulp-gh-pages')
-const uglify = require('gulp-uglify')
-const cleanCSS = require('gulp-clean-css')
+import gulp from 'gulp'
+import del from 'del'
+import scss from 'gulp-sass'
+import BrowserSync from 'browser-sync'
+// import webpack from 'webpack'
+import webpack from 'webpack-stream'
+import webpackDevMiddleware from 'webpack-dev-middleware'
+import webpackHotMiddleware from 'webpack-hot-middleware'
+import webpackConfig from './webpack.config.js'
+import ghPages from 'gulp-gh-pages'
 
-// clean dist directory
-gulp.task('clean', cb => {
-  rimraf('./dist', cb)
-})
+const browserSync = BrowserSync.create()
 
-// copy assets into dist directory
-gulp.task('assets', () => {
-  return gulp.src('src/assets/*', {base: 'src'})
-    .pipe(gulp.dest('dist'))
-})
+const paths = {
+  html: 'src/index.html',
+  scss: 'src/index.scss',
+  assets: 'src/assets/*',
+  watch: {
+    scss: 'src/**/*.scss',
+    reload: ['dist/assets/*', 'dist/**/*.{html,js}']
+  },
+  build: 'dist',
+  deploy: '.publish'
+}
 
-// copy html into dist directory
-gulp.task('html', () => {
-  return gulp.src('src/**/*.html')
-    .pipe(gulp.dest('dist'))
-})
+// Clean dist/ and .publish/
+let clean = () => {
+  return del([paths.build, paths.deploy])
+}
 
-// compile scss into CSS & auto-inject into browsers
-gulp.task('scss', () => {
-  return gulp.src('src/**/*.scss')
+// Copy assets/
+let assets = () => {
+  return gulp.src(paths.assets, {base: 'src'})
+    .pipe(gulp.dest(paths.build))
+}
+
+// Copy html to dist/
+let html = () => {
+  return gulp.src(paths.html)
+    .pipe(gulp.dest(paths.build))
+}
+
+// Compile scss into CSS & auto-inject into browsers
+let styles = () => {
+  return gulp.src(paths.scss)
     .pipe(scss())
-    .pipe(cleanCSS())
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest(paths.build))
     .pipe(browserSync.stream())
-})
+}
 
-// transform es6 to es5
-gulp.task('babel', () => {
-  return gulp.src('src/**/*.js')
-    .pipe(babel())
-    .pipe(webpack(webpackConfig))
-    // .pipe(uglify())
-    .pipe(gulp.dest('dist'))
-})
+// Transform es6 to es5
+let scripts = () => {
+  return webpack(webpackConfig)
+    .pipe(gulp.dest(paths.build))
+  
+  // let bundler = webpack(webpackConfig)
 
-// copy bower_components into dist directory
-gulp.task('bower', () => {
-  let mainFiles = [
-    'bower_components/react/react-with-addons.min.js',
-    'bower_components/react/react-dom.min.js'
-  ]
+  // browserSync.init({
+  //   server: {
+  //     baseDir: paths.build,
+  //     middleware: [
+  //       webpackDevMiddleware(bundler, {
+  //         // IMPORTANT: dev middleware can't access config, so we should
+  //         // provide publicPath by ourselves
+  //         publicPath: webpackConfig.output.publicPath,
+  //         // quiet: true,
+  //         noInfor: true,
 
-  return gulp.src(mainFiles, {base: './'})
-    .pipe(gulp.dest('dist'))
-})
+  //         // pretty colored output
+  //         stats: { colors: true }
 
-// static server + watching files' change
-gulp.task('serve', ['assets', 'bower', 'scss', 'babel', 'html'], () => {
+  //         // for other settings see
+  //         // http://webpack.github.io/docs/webpack-dev-middleware.html
+  //       }),
+
+  //       // bundler should be the same as above
+  //       webpackHotMiddleware(bundler)
+  //     ]
+  //   },
+  //   open: false
+  //   // plugins: [
+  //   //   {
+  //   //     module: 'bs-html-injector',
+  //   //     options: {
+  //   //       files: [paths.watch.html]
+  //   //     }
+  //   //   }
+  //   // ]
+  // })
+
+}
+
+// Watch files' change and reload
+let watch = () => {
   browserSync.init({
-    server: {
-      baseDir: './dist'
-    },
+    server: paths.build,
     open: false
   })
 
-  gulp.watch('src/assets/*', ['assets'])
-  gulp.watch('src/**/*.html', ['html'])
-  gulp.watch('src/**/*.scss', ['scss'])
-  gulp.watch('src/**/*.js', ['babel'])
-  gulp.watch(['dist/**/*.html', 'dist/**/*.js']).on('change', browserSync.reload)
-})
+  gulp.watch(paths.assets, assets)
+  gulp.watch(paths.html, html)
+  gulp.watch(paths.watch.scss, styles)
 
-// publish to Github pages
-gulp.task('deploy', () => {
-  return gulp.src('./dist/**/*')
+  gulp.watch(paths.watch.reload).on('change', browserSync.reload)
+}
+
+// Publish to GitHub pages
+let deploy = () => {
+  return gulp.src(paths.build)
     .pipe(ghPages())
-})
+}
 
-gulp.task('default', ['serve'])
+let build = gulp.series(clean, gulp.parallel(assets, html, styles), gulp.parallel(scripts, watch))
+
+export {deploy}
+export default build
