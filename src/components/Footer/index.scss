@@ -1,0 +1,29 @@
+@import '../../mixin';
+
+#footer {
+  width: $width;
+  margin: 0 auto;
+  margin-top: 40px;
+  padding: 6px 0;
+  border-top: 1px dashed #ddd;
+  font-size: 12px;
+  color: #999;
+  overflow: hidden;
+
+  :first-child {
+    float: left;
+  }
+
+  :last-child {
+    float: right;
+
+    a {
+      color: #37a;
+      padding-left: 3px;
+
+      &:hover {
+          text-decoration: underline;
+      }
+    }
+  }
+}

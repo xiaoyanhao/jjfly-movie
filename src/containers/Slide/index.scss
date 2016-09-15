@@ -1,8 +1,8 @@
 @import '../../mixin';
 
 #slide {
-  width: $width;
-  margin: 0 auto;
+  // width: $width;
+  // margin: 0 auto;
 
   .slide-title {
     border-bottom: 1px solid #e5e5e5;
@@ -18,22 +18,22 @@
       height: 40px;
       margin: 40px auto;
       border-radius: 50%;
-      border: 10px solid $blue;
+      border: 5px solid $blue;
       border-right-color: transparent;
       animation: rotate 1s linear infinite;
     }
   }
 
-  @keyframes rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
+  // @keyframes rotate {
+  //   from {
+  //     transform: rotate(0deg);
+  //   }
+  //   to {
+  //     transform: rotate(360deg);
+  //   }
+  // }
 
-  @import '../../components/SlideControl/index';
-  @import '../../components/SlideItems/index';
-  @import '../../components/SlideItemTips/index';
+  @import './control';
+  @import './items';
+  @import './tips';
 }

@@ -1,0 +1,22 @@
+@import '../../mixin';
+
+.tag-tool {
+  padding: 15px 2px;
+  margin: 15px 0 5px 0;
+  border-top: 1px solid $grey;
+  font-size: 13px;
+  overflow: hidden;
+
+  .tag-sort {
+    float: left;
+
+    label {
+      margin-right: 20px;
+    }
+
+    input {
+      margin-right: 3px;
+      outline: none;
+    }
+  }
+}

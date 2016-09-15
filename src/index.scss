@@ -12,4 +12,8 @@ ul {
   list-style-type: none;
 }
 
-@import './containers/JJFly/index';
+a {
+    text-decoration: none;
+}
+
+@import './components/JJFly/index';

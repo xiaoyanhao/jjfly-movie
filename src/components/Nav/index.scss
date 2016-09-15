@@ -5,10 +5,10 @@
   // height: 30px;
   // line-height: 30px;
   // background-color: #eaeff2;
-  color: $blue;
+  // color: $blue;
   border-bottom: 1px solid $grey;
   padding-bottom: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 
   .nav-links {
     ul {
@@ -25,6 +25,7 @@
 
       &:hover {
         border-color: $blue;
+        color: $blue;
       }
     }
   }

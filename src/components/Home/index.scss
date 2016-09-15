@@ -1,0 +1,9 @@
+@import '../../mixin';
+
+#home {
+  width: $width;
+  margin: 0 auto;
+}
+
+@import '../../containers/Slide/index';
+@import '../../containers/Tag/index';

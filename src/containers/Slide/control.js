@@ -1,6 +1,13 @@
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
+import {slideIfNeeded} from '../../actions'
+import {IN_THEATERS} from '../../constants/actionTypes'
 
-class SlideControl extends React.Component {
+class Control extends Component {
+  static propTypes = {
+    total: PropTypes.number.isRequired,
+  }
+
   constructor(props) {
     super(props)
     this.controlSlide = this.controlSlide.bind(this)
@@ -43,4 +50,12 @@ class SlideControl extends React.Component {
   }
 }
 
-export default SlideControl
+const mapDispatchToProps = dispatch => {
+  return {
+    slide: (page) => {
+      dispatch(slideIfNeeded(page))
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Control)

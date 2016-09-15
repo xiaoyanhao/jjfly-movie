@@ -1,12 +1,19 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
+import {IN_THEATERS} from '../../constants/actionTypes'
 
-class SlideItemTips extends Component {
+class Tips extends Component {
+  static propTypes = {
+    currentTip: PropTypes.number.isRequired,
+    subjects: PropTypes.array.isRequired
+  }
+
   constructor(props) {
     super(props)
   }
 
   getTips() {
-    return this.props.movies.map((element, index) => {
+    return this.props.subjects.map((element, index) => {
       let stars = 'rating-star rating-star-' + element.rating.stars
       let className = `slide-item-tip tip-${index} ` + (this.props.currentTip == index ? 'active' : '')
 
@@ -29,14 +36,14 @@ class SlideItemTips extends Component {
       return (
         <li className={className} key={'tip' + index}>
           <h3>
-            {element.title} 
+            {element.title} &nbsp;
             {element.title != element.original_title && element.original_title}
             <span className="year">{element.year}</span>
           </h3>
 
           <p className="genres">
             <span className="label">类型</span>
-            <span>{element.genres.join(' | ')}</span>
+            <span>{element.genres && element.genres.join(' | ')}</span>
           </p>
           
           <p className="directors">
@@ -64,4 +71,16 @@ class SlideItemTips extends Component {
   }
 }
 
-export default SlideItemTips
+const mapStateToProps = state => {
+  let {
+    currentTip
+  } = state.category[IN_THEATERS] || {
+    currentTip: -1
+  }
+
+  return {
+    currentTip
+  }
+}
+
+export default connect(mapStateToProps)(Tips)

@@ -8,6 +8,12 @@
   position: relative;
   white-space: nowrap;
   transition: left 0.7s;
+
+  @for $i from 0 through 7 {
+    &.page-#{$i} {
+      left: $i * -740px
+    }
+  }
 }
 
 .slide-item {
@@ -19,7 +25,7 @@
   position: relative;
 }
 
-.poster {
+.slide-item-poster {
   vertical-align: super;
   height: 180px;
   overflow: hidden;
@@ -32,7 +38,7 @@
   }
 }
 
-.title {
+.slide-item-title {
   font-size: 14px;
   width: 128px;
   overflow: hidden;
@@ -40,16 +46,16 @@
   margin-bottom: 8px;
 
   a {
-    cursor: pointer;
+    color: $black;
   }
 }
 
-.rating {
+.slide-item-rating {
   font-size: 12px;
   margin-bottom: 18px;
 
   .rating-score {
-    color: #e09015;
+    color: $orange;
   }
 
   .rating-star {

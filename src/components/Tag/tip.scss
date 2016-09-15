@@ -1,0 +1,39 @@
+@import '../../mixin';
+
+.tag-item-tip {
+  position: absolute;
+  top: 0;
+  left: 180px;
+  width: 200px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  z-index: 1;
+  color: $black;
+  background-color: #fff;
+  display: none;
+  opacity: 0;
+  transition: opacity 2s;
+
+  h3 {
+    font-size: 16px;
+    font-weight: normal;
+    margin-top: 0;
+    line-height: 1.4;
+
+    .year {
+      color: #aaa;
+      font-size: 12px;
+      margin-left: 8px;
+    }
+  }
+
+  p {
+    font-size: 12px;
+    margin-bottom: 0;
+    line-height: 1.4;
+
+    .label {
+      margin-right: 8px;
+    }
+  }
+}

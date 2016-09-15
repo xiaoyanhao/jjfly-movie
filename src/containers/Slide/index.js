@@ -1,15 +1,13 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from 'react-redux'
-import SlideItemTips from '../../components/SlideItemTips'
-import SlideItems from '../../components/SlideItems'
-import SlideControl from '../../components/SlideControl'
-import {changeTip, slideIfNeeded, fetchMoviesIfNeeded} from '../../actions'
+import Tips from './tips'
+import Items from './items'
+import Control from './control'
+import {fetchMoviesIfNeeded} from '../../actions'
 import {IN_THEATERS} from '../../constants/actionTypes'
 
 class Slide extends Component {
   static propTypes = {
-    currentTip: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,
     movies: PropTypes.object.isRequired
   }
@@ -21,7 +19,6 @@ class Slide extends Component {
   componentDidMount() {
     let option = {
       category: IN_THEATERS,
-      url: 'https://api.douban.com/v2/movie/' + IN_THEATERS.toLowerCase(),
       data: {count: 35}
     }
 
@@ -29,7 +26,7 @@ class Slide extends Component {
   }
 
   render() {
-    const {currentPage, currentTip, isFetching, movies, slide, changeTip} = this.props
+    const {isFetching, movies, currentTip} = this.props
 
     return (
       <div id='slide'>
@@ -38,9 +35,9 @@ class Slide extends Component {
         {isFetching
           ? <div className='slide-content loading'></div>
           : <div className='slide-content'>
-              <SlideItemTips movies={movies.subjects} currentTip={currentTip} />
-              <SlideItems movies={movies.subjects} currentPage={currentPage} changeTip={changeTip} />
-              <SlideControl total={movies.total} slide={slide} />
+              <Tips subjects={movies.subjects} />
+              <Items subjects={movies.subjects} />
+              <Control total={movies.total} />
             </div>
         }
       </div>
@@ -51,20 +48,14 @@ class Slide extends Component {
 
 const mapStateToProps = state => {
   let {
-    currentTip,
     isFetching,
-    currentPage,
     movies
   } = state.category[IN_THEATERS] || {
-    currentTip: -1,
     isFetching: true,
-    currentPage: -1,
     movies: {}
   }
 
   return {
-    currentTip,
-    currentPage,
     isFetching,
     movies
   }
@@ -72,14 +63,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    slide: (page) => {
-      dispatch(slideIfNeeded(page))
-    },
     fetchMovies: (option) => {
       dispatch(fetchMoviesIfNeeded(option))
-    },
-    changeTip: (idnex) => {
-      dispatch(changeTip(idnex))
     }
   }
 }
