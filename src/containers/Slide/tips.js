@@ -13,38 +13,21 @@ class Tips extends Component {
   }
 
   getTips() {
+    let divider = ' | '
+
     return this.props.subjects.map((element, index) => {
-      let stars = 'rating-star rating-star-' + element.rating.stars
-      let className = `slide-item-tip tip-${index} ` + (this.props.currentTip == index ? 'active' : '')
+      let className = `slide-item-tip-${index} ${this.props.currentTip == index ? 'active' : ''}`
 
-      let directors = ''
-      for (let index in element.directors) {
-        if (index != 0) {
-          directors += ' | '
-        }
-        directors += element.directors[index].name
-      }
-
-      let casts = ''
-      for (let index in element.casts) {
-        if (index != 0) {
-          casts += ' | '
-        }
-        casts += element.casts[index].name
-      }
+      let directors = element.directors.map(director => director.name).join(divider)
+      let casts = element.casts.map(cast => cast.name).join(divider)
+      let genres = element.genres.join(divider)
 
       return (
-        <li className={className} key={'tip' + index}>
+        <li className={className} key={`tip-${index}`}>
           <h3>
-            {element.title} &nbsp;
-            {element.title != element.original_title && element.original_title}
+            {`${element.title} ${element.title != element.original_title ? element.original_title : ''}`}
             <span className="year">{element.year}</span>
           </h3>
-
-          <p className="genres">
-            <span className="label">类型</span>
-            <span>{element.genres && element.genres.join(' | ')}</span>
-          </p>
           
           <p className="directors">
             <span className="label">导演</span>
@@ -54,6 +37,11 @@ class Tips extends Component {
           <p className="casts">
             <span className="label">主演</span>
             <span>{casts}</span>
+          </p>
+
+          <p className="genres">
+            <span className="label">类型</span>
+            <span>{genres}</span>
           </p>
         </li>
       )

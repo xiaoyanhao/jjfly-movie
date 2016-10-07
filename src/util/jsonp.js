@@ -14,9 +14,8 @@ let objectToQuery = obj => {
   return query.join('&')
 }
 
-let random = length => {
-  length += 2
-  return Math.random().toString(36).slice(2, length)
+let random = () => {
+  return Math.random().toString(36).slice(2)
 }
 
 export const JSONP = (options = {}) => {
@@ -26,34 +25,36 @@ export const JSONP = (options = {}) => {
     before: param => {},
     success: response => {},
     error: event => {},
-    completed: (response, param) => {}
+    after: (response, param) => {}
   }, options)
 
   if (param.url == '') {
     throw new error('URL must not be empty!')
+    return
   }
 
-  let callbackName = 'jsonp_' + random(15)
+  let callbackName = 'jsonp_' + random()
   param.data.callback = callbackName
   param.url = completeURL(param)
+
+  window[callbackName] = response => {
+    param.success(response)
+    param.after(response, param)
+    window[callbackName] = null
+  }
+  
   param.before(param)
 
-  callbackName = param.data.callback
-  window[callbackName] = response => {
-    window[callbackName] = null
-    param.success(response)
-    param.completed(response, param)
-  }
-
   let script = document.createElement('script')
-  script.async = true
+  script.type = 'text/javascript'
   script.src = param.url
+  script.async = true
 
   script.addEventListener('error', event => {
     param.error(event)
-    param.completed(event, param)
-    // script.parentNode.removeChild(script)
-    // script = null
+    param.after(event, param)
+    script.parentNode.removeChild(script)
+    script = null
   })
 
   script.addEventListener('load', event => {

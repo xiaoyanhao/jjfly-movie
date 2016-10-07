@@ -1,4 +1,4 @@
-.slide-item-tip {
+[class^='slide-item-tip-'] {
   position: absolute;
   top: 0;
   width: 200px;
@@ -7,12 +7,6 @@
   z-index: 1;
   background-color: #fff;
   display: none;
-
-  @for $i from 0 through 35 {
-    &.tip-#{$i} {
-      left: 148px * ($i % 5 + 1)
-    }
-  }
 
   &.active {
     display: list-item;
@@ -39,5 +33,11 @@
     .label {
       margin-right: 8px;
     }
+  }
+}
+
+@for $i from 0 through 35 {
+  .slide-item-tip-#{$i} {
+    left: 148px * ($i % 5 + 1)
   }
 }

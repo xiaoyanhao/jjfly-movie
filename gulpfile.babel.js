@@ -1,11 +1,14 @@
+import fs from 'fs'
+import url from 'url'
+import path from 'path'
 import gulp from 'gulp'
 import del from 'del'
 import scss from 'gulp-sass'
+import postcss from 'gulp-postcss'
+import autoprefixer from 'autoprefixer'
+import precss from 'precss'
 import BrowserSync from 'browser-sync'
-// import webpack from 'webpack'
 import webpack from 'webpack-stream'
-import webpackDevMiddleware from 'webpack-dev-middleware'
-import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackConfig from './webpack.config.js'
 import ghPages from 'gulp-gh-pages'
 
@@ -43,7 +46,10 @@ let html = () => {
 // Compile scss into CSS & auto-inject into browsers
 let styles = () => {
   return gulp.src(paths.scss)
-    .pipe(scss())
+    .pipe(scss({
+      outputStyle: 'compressed'
+    }))
+    .pipe(postcss([autoprefixer, precss]))
     .pipe(gulp.dest(paths.build))
     .pipe(browserSync.stream())
 }
@@ -52,48 +58,31 @@ let styles = () => {
 let scripts = () => {
   return webpack(webpackConfig)
     .pipe(gulp.dest(paths.build))
-  
-  // let bundler = webpack(webpackConfig)
-
-  // browserSync.init({
-  //   server: {
-  //     baseDir: paths.build,
-  //     middleware: [
-  //       webpackDevMiddleware(bundler, {
-  //         // IMPORTANT: dev middleware can't access config, so we should
-  //         // provide publicPath by ourselves
-  //         publicPath: webpackConfig.output.publicPath,
-  //         // quiet: true,
-  //         noInfor: true,
-
-  //         // pretty colored output
-  //         stats: { colors: true }
-
-  //         // for other settings see
-  //         // http://webpack.github.io/docs/webpack-dev-middleware.html
-  //       }),
-
-  //       // bundler should be the same as above
-  //       webpackHotMiddleware(bundler)
-  //     ]
-  //   },
-  //   open: false
-  //   // plugins: [
-  //   //   {
-  //   //     module: 'bs-html-injector',
-  //   //     options: {
-  //   //       files: [paths.watch.html]
-  //   //     }
-  //   //   }
-  //   // ]
-  // })
-
 }
 
 // Watch files' change and reload
 let watch = () => {
   browserSync.init({
-    server: paths.build,
+    server: {
+      baseDir: paths.build,
+      middleware: (req, res, next) => {
+        let defaultURL
+        let url = req.url
+        
+        url += url.indexOf('.') == -1 ? '/' : ''
+        url = url.split('/')
+
+        if (url.indexOf('assets') == -1) {
+          defaultURL = url.pop()
+        } else {
+          defaultURL = 'assets/' + url.pop()
+        }
+
+        req.url = '/' + defaultURL
+
+        return next()
+      }
+    },
     open: false
   })
 

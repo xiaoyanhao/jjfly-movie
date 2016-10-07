@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import Tips from './tips'
 import Items from './items'
 import Control from './control'
-import {fetchMoviesIfNeeded} from '../../actions'
+import {fetchMoviesIfNeeded} from '../../actions/movies'
 import {IN_THEATERS} from '../../constants/actionTypes'
 
 class Slide extends Component {
@@ -19,14 +19,14 @@ class Slide extends Component {
   componentDidMount() {
     let option = {
       category: IN_THEATERS,
-      data: {count: 35}
+      data: {count: 35, start: 0}
     }
 
     this.props.fetchMovies(option)
   }
 
   render() {
-    const {isFetching, movies, currentTip} = this.props
+    const {isFetching, movies, currentTip, currentPage} = this.props
 
     return (
       <div id='slide'>
@@ -37,7 +37,7 @@ class Slide extends Component {
           : <div className='slide-content'>
               <Tips subjects={movies.subjects} />
               <Items subjects={movies.subjects} />
-              <Control total={movies.total} />
+              <Control total={movies.total} currentPage={currentPage} />
             </div>
         }
       </div>
@@ -49,15 +49,18 @@ class Slide extends Component {
 const mapStateToProps = state => {
   let {
     isFetching,
-    movies
+    movies,
+    currentPage
   } = state.category[IN_THEATERS] || {
     isFetching: true,
-    movies: {}
+    movies: {},
+    currentPage: 0
   }
 
   return {
     isFetching,
-    movies
+    movies,
+    currentPage
   }
 }
 

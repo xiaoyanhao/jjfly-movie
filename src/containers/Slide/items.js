@@ -1,8 +1,8 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {displayTip} from '../../actions'
+import {displayTip} from '../../actions/slide'
 import {IN_THEATERS} from '../../constants/actionTypes'
-import {IndexLink, Link} from 'react-router'
+import {Link} from 'react-router'
 
 class Items extends Component {
   static propTypes = {
@@ -27,15 +27,13 @@ class Items extends Component {
 
   getItems() {
     return this.props.subjects.map((element, index) => {
-      let stars = 'rating-star rating-star-' + element.rating.stars
-      
       return (
-        <li className="slide-item" key={'item' + index}>
+        <li className="slide-item" key={`item-${index}`}>
           <ul>
             <li className="slide-item-poster">
               <Link to={`/subject/${element.id}`}>
                 <img
-                  src={element.images.medium.replace('/spst/', '/mpst/')}
+                  src={element.images.large}
                   alt={element.title}
                   onMouseOver={this.displayTip}
                   onMouseOut={this.displayTip}
@@ -49,7 +47,7 @@ class Items extends Component {
             </li>
 
             <li className="slide-item-rating">
-              <span className={stars}></span>
+              <span className={`rating-star-${element.rating.stars} sm`}></span>
               {element.rating.stars == '00'
                 ? <span className="no-rating">暂无评分</span>
                 : <span className="rating-score">{element.rating.average}</span>

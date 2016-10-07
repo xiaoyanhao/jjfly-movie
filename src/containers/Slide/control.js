@@ -1,11 +1,12 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {slideIfNeeded} from '../../actions'
+import {slideIfNeeded} from '../../actions/slide'
 import {IN_THEATERS} from '../../constants/actionTypes'
 
 class Control extends Component {
   static propTypes = {
     total: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired
   }
 
   constructor(props) {
@@ -35,7 +36,7 @@ class Control extends Component {
     total = total > this.maxTotal ? this.maxTotal : total
 
     for (let i = 0; i < total; ++i) {
-      if (i == 0) {
+      if (i == this.props.currentPage) {
         lis.push(<li key={i} data-index={i} className='active'></li>)
       } else {
         lis.push(<li key={i} data-index={i}></li>)

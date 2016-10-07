@@ -58,23 +58,6 @@
     color: $orange;
   }
 
-  .rating-star {
-    display: inline-block;
-    width: 55px;
-    height: 11px;
-    margin-right: 5px;
-    background-image: url('assets/rating.png');
-    background-size: cover;
-  }
-
-  @for $i from 10 through 50 {
-    @if $i % 5 == 0 {
-      .rating-star-#{$i} {
-        background-position: 0 -11px * (10 - $i / 5);
-      }
-    }
-  }
-
   .rating-star-00 {
     display: none;
   }

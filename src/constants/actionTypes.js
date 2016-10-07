@@ -1,5 +1,5 @@
-export const REQUEST = 'REQUEST'
-export const RECEIVE = 'RECEIVE'
+export const REQUEST_MOVIES = 'REQUEST_MOVIES'
+export const RECEIVE_MOVIES = 'RECEIVE_MOVIES'
 
 export const SLIDE = 'SLIDE'
 export const DISPLAY_TIP = 'DISPLAY_TIP'
@@ -14,3 +14,6 @@ export const NEW_MOVIES = 'NEW_MOVIES'
 export const CHANGE_TAG = 'CHANGE_TAG'
 
 export const SORT_TAG = 'SORT_TAG'
+
+export const REQUEST_SUBJECT = 'REQUEST_SUBJECT'
+export const RECEIVE_SUBJECT = 'RECEIVE_SUBJECT'

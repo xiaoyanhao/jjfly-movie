@@ -1,0 +1,8 @@
+@import '../../mixin';
+
+#subject {
+  width: $width;
+  margin: 0 auto;
+
+  @import '../../components/Subject/index';
+}

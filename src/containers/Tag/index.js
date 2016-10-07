@@ -1,6 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from 'react-redux'
-import {sortTag, changeTag, fetchMoviesIfNeeded} from '../../actions'
+import {sortTag, changeTag} from '../../actions/tag'
+import {fetchMoviesIfNeeded} from '../../actions/movies'
 import Category from '../../components/Tag/category'
 import Tool from '../../components/Tag/tool'
 import Items from '../../components/Tag/items'
@@ -82,7 +83,7 @@ const mapStateToProps = state => {
     isFetching,
     sortedBy,
     movies
-  } = state.category[state.currentTag] || {
+  } = state.category[state.category.currentTag] || {
     isFetching: true,
     sortedBy: 'default',
     movies: {subjects: []}
@@ -92,7 +93,7 @@ const mapStateToProps = state => {
     isFetching,
     movies,
     sortedBy,
-    currentTag: state.currentTag
+    currentTag: state.category.currentTag
   }
 }
 

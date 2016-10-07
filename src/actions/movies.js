@@ -1,18 +1,17 @@
 import {JSONP} from '../util/jsonp'
-import 'whatwg-fetch'
 import * as types from '../constants/actionTypes'
-import InTheaters from '../mock/in-theaters'
+// import InTheaters from '../mock/in-theaters'
 
 let requestMovies = category => {
   return {
-    type: types.REQUEST,
+    type: types.REQUEST_MOVIES,
     category: category
   }
 }
 
 let receiveMovies = (category, response) => {
   return {
-    type: types.RECEIVE,
+    type: types.RECEIVE_MOVIES,
     movies: response,
     category: category,
     receivedAt: Date.now()
@@ -53,7 +52,7 @@ let shouldFetchMovies = (state, option) => {
     return true;
   }
 
-  return item.lastUpdate - Date.now() > 3600000
+  return Date.now() - item.lastUpdate > 3600000
 }
 
 let fetchMoviesIfNeeded = option => {
@@ -66,45 +65,4 @@ let fetchMoviesIfNeeded = option => {
   }
 }
 
-let slide = page => {
-  return {
-    type: types.SLIDE,
-    page
-  }
-}
-
-let slideIfNeeded = page => {
-  return (dispatch, getState) => {
-    let category = getState().category
-    if (category[types.IN_THEATERS].currentPage == page) {
-      return Promise.resolve()
-    } else {
-      return dispatch(slide(page))
-    }
-  }
-}
-
-let displayTip = (category, index) => {
-  return {
-    type: types.DISPLAY_TIP,
-    category: category,
-    tip: index
-  }
-}
-
-let changeTag = tag => {
-  return {
-    type: types.CHANGE_TAG,
-    tag: tag
-  }
-}
-
-let sortTag = (category, sortedBy) => {
-  return {
-    type: types.SORT_TAG,
-    category: category,
-    sortedBy: sortedBy
-  }
-}
-
-export {sortTag, displayTip, changeTag, slideIfNeeded, fetchMoviesIfNeeded}
+export {fetchMoviesIfNeeded}

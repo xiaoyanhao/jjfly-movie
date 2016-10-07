@@ -1,9 +1,6 @@
 @import '../../mixin';
 
 #slide {
-  // width: $width;
-  // margin: 0 auto;
-
   .slide-title {
     border-bottom: 1px solid #e5e5e5;
     padding-bottom: 10px;
@@ -23,15 +20,6 @@
       animation: rotate 1s linear infinite;
     }
   }
-
-  // @keyframes rotate {
-  //   from {
-  //     transform: rotate(0deg);
-  //   }
-  //   to {
-  //     transform: rotate(360deg);
-  //   }
-  // }
 
   @import './control';
   @import './items';
